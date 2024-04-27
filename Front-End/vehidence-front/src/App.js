@@ -1,19 +1,23 @@
-import Navbar from './Navbar';
-import Home from './Home';
-import { useEffect, useState } from 'react';
+import Navbar from "./Navbar";
+import Home from "./Home";
+import Login from "./LoginSignUp/Login";
+import { useEffect, useState } from "react";
 
-function App() {
+const App = () => {
   const currentPath = window.location.pathname;
-  return(
-         <div className="App">
-      <Navbar />
-      <div className="content">
-        <Home />
+  if (currentPath == "/login") {
+    return <Login />;
+  } 
+  else {
+    return (
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          <Home />
+        </div>
       </div>
-    </div>
-  )
- 
- 
-}
+    );
+  }
+};
 
 export default App;
