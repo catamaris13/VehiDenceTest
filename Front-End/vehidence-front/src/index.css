@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 /* base styles */
 * {
@@ -6,16 +6,26 @@
   font-family: "Quicksand";
   color: #333;
 }
+body { 
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(#f09009,#ea0909);
+
+}
 .navbar {
   padding: 20px;
   display: flex;
   align-items: center;
   max-width: auto;
   margin: 0 auto;
-  border-bottom: 2px solid #4912c1;
+  border-bottom: 2px solid #3c009d;
 }
 .navbar h1 {
-  color: #4912c1;
+  color: #3c009d;
 }
 .navbar .links {
   margin-left: auto;
@@ -26,10 +36,75 @@
   padding: 6px;
 }
 .navbar a:hover {
-  color: #f1356d;
+  color: #3c009d;
 }
 .content {
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
 }
+.login {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 70px;
+  padding-bottom: 30px;
+  width: 70%;
+  height: 40%;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 30px;
+  font-size: 70px;
+  color: #3c009d
+}
+.inputs {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: transparent;
+
+}
+.input {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 480px;
+  height: 80px;
+  background: #f8f8f8;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+.input input{
+    height: 60px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #3c009d;
+    font-size: 19px;
+}
+.input input::placeholder {
+  color: #3c009d;
+}
+.input img {
+  margin: 0px 30px;
+  
+}
+.button {
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  margin: auto;
+  margin-top: 40px;
+  font-size: 40px;
+  background-color: #3c009d;
+  color: #f8f8f8;
+  padding: 8px 30px;
+}
+

@@ -1,9 +1,12 @@
 import emailIcon from "../assets/email_img.png";
 import passwordIcon from "../assets/password_img.png";
+import userIcon from "../assets/username_img.png";
+import phoneIcon from "../assets/phone_img.png";
+
 import React, { useState } from "react";
 import '../index.css'
 
-const Login = () => {
+const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -43,7 +46,7 @@ const Login = () => {
 
     return (
         <div className="login">
-            <h1 className="text">Login</h1>
+            <h1 className="text">Sign up</h1>
             <div className="inputs">
                 <div className="input">
                     <img src={emailIcon} alt="" />
@@ -56,6 +59,15 @@ const Login = () => {
                 </div>
 
                 <div className="input">
+                    <img src={userIcon} alt="" />
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="input">
                     <img src={passwordIcon} alt="" />
                     <input
                         type="password"
@@ -64,10 +76,19 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                <div className="input">
+                    <img src={phoneIcon} alt="" />
+                    <input
+                        type="text"
+                        placeholder="Phone"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                </div>
             </div>
-            <button className="button" onClick={handleLogin}>Login</button>
+            <button className="button" onClick={handleLogin}>Sign up</button>
         </div>
     );
 };
 
-export default Login;
+export default SignUp;
