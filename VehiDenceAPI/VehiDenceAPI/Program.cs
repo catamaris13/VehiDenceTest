@@ -20,6 +20,17 @@ builder.Services.AddDbContext<AplicatieDbContext>(options =>
 
 builder.Services.AddScoped<IEmailServices, EmailServices>();
 
+// Add CORS policy
+builder.Services.AddCors(option =>
+{
+    option.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -34,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
