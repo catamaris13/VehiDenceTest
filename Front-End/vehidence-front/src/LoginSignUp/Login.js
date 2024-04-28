@@ -67,7 +67,7 @@ const Login = () => {
             {
               
                 localStorage.setItem("username",username);
-                history("/signup");
+                history("/home");
                 //window.location.href('/signup')
             }
             else 
