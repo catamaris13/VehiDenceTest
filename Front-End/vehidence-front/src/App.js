@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+/*import Navbar from "./Navbar";
 import Home from "./Home";
 import Login from "./LoginSignUp/Login";
 import SignUp from "./LoginSignUp/SignUp"
@@ -23,5 +23,26 @@ const App = () => {
     );
   }
 };
+
+export default App;*/
+
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import Login from './LoginSignUp/Login';
+import SignUp from './LoginSignUp/SignUp';
+
+
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+         <Route path='/' element={<Login/>}/>
+         <Route path='/registration' element={<SignUp/>}/>
+         
+        </Routes>
+      </Router>
+    </div>
+  );
+}
 
 export default App;
