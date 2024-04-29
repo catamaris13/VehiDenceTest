@@ -55,7 +55,7 @@ namespace VehiDenceAPI.Models
         {
             Response response = new Response();
 
-            SqlDataAdapter da = new SqlDataAdapter("select * from Users where Email= '" + user.Email + "'and Password='" + user.Password + "'", connection); ;
+            SqlDataAdapter da = new SqlDataAdapter("select * from Users where Email= '" + user.Email + "'and Password='" + user.Password + "'and IsValid = 1", connection); ;
 
 
             DataTable dt = new DataTable();
@@ -76,10 +76,30 @@ namespace VehiDenceAPI.Models
                 else
                 {
                     response.StatusCode = 100;
-                    response.StatusMessage = "Login Failed";
+                    response.StatusMessage = "Login Failed. Please Sign up or check your Email";
                     response.User = null;
                 }
             
+            return response;
+        }
+
+        public Response DeleteUser(Users users, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'");
+            connection.Open();
+            int i = command.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deletion successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
             return response;
         }
         public Response AddMasina(Masina masina, SqlConnection connection)

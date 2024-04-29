@@ -41,7 +41,8 @@ namespace VehiDenceAPI.Controllers
             // Send validation email
             if (response.StatusCode == 200)
             {
-                string validationLink = $"https://localhost:7165/api/User/ValidateEmail?username={user.username}&token={user.Token}";
+                //string validationLink = $"http://localhost:5277/api/User/ValidateEmail?username={user.username}&token={user.Token}";
+                string validationLink = $"http://localhost:3000/email_validation?username={user.username}&token={user.Token}";
                 string subject = "Welcome to our platform!";
                 string message = $"Thank you for registering with us, {user.Name}. Please click the following link to validate your email: {validationLink}";
 
@@ -49,14 +50,15 @@ namespace VehiDenceAPI.Controllers
                 {
 
                     await _emailService.SendEmailAsync(user.Email, subject, message);
-                    return Ok("Registration successful. Please check your email for validation instructions.");
+                    
+                    return StatusCode(200,"Registration successful. Please check your email for validation instructions.");
                 }
                 catch (Exception ex)
                 {
                     return StatusCode(500, $"Failed to send email: {ex.Message}");
                 }
             }
-            else return StatusCode(500, "Failed to send email");
+             return StatusCode(500, "Failed to send email");
 
         }
         [HttpPost]
@@ -70,6 +72,19 @@ namespace VehiDenceAPI.Controllers
 
             return response;
         }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public Response DeleteUser(Users user)
+        {
+            Response response = new Response();
+            SqlConnection connection =
+                new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+            response = dal.DeleteUser(user, connection);
+            return response;
+        }
+        
         [HttpGet]
         [Route("SendEmail")]
         public async Task<IActionResult> TestEmail()

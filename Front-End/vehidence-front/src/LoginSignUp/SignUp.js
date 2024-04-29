@@ -33,13 +33,12 @@ const SignUp = () => {
           PhoneNo:phoneNumber
         }
         const url='http://localhost:5277/api/User/Registration';
-        console.log(data)
         axios.post(url,data)
         .then((result)=>{
             const dt=result.data;
+            console.log(dt.StatusCode);
             
-            if(dt.statusCode===200)
-            {
+                console.log(data)
               
                 localStorage.setItem("username",username);
                 localStorage.setItem("name",name);
@@ -47,14 +46,10 @@ const SignUp = () => {
                 localStorage.setItem("password",password);
                 localStorage.setItem("phone",phoneNumber);
 
-                history("/home");
+                history("/login");
                 //window.location.href('/signup')
-            }
-            else 
-            {
-                if(dt.statusCode===100)
-                alert(dt.statusMessage);
-            }
+             
+            
             
           })
           

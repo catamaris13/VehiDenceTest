@@ -30,6 +30,7 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import Login from './LoginSignUp/Login';
 import SignUp from './LoginSignUp/SignUp';
 import Home from "./Home";
+import EmailValidation from './EmailValidation/EmailValidation';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Routes>
          <Route path='/login' element={<Login/>}/>
          <Route path='/signup' element={<SignUp/>}/>
+         <Route path='/email_validation' element={<EmailValidation/>}/>
          <Route path='*' element={<Home/>}/>
 
         </Routes>
