@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehiDenceAPI.Data;
 
@@ -11,9 +12,11 @@ using VehiDenceAPI.Data;
 namespace VehiDenceAPI.Migrations
 {
     [DbContext(typeof(AplicatieDbContext))]
-    partial class AplicatieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429080033_NrInmatriculare")]
+    partial class NrInmatriculare
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
