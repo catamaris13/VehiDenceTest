@@ -123,7 +123,7 @@ namespace VehiDenceAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NrInmatriclulare")
+                    b.Property<string>("NrInmatriculare")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

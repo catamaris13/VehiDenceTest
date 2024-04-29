@@ -88,7 +88,7 @@ namespace VehiDenceAPI.Models
             try
             {
                 
-                            SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriclulare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriclulare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
+                            SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriculare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriculare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
                             connection.Open();
                             int i = cmd.ExecuteNonQuery();
                             connection.Close();
@@ -135,7 +135,7 @@ namespace VehiDenceAPI.Models
                     Masina ma = new Masina();
                     ma.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
                     ma.SerieSasiu = Convert.ToString(dt.Rows[i]["SerieSasiu"]);
-                    ma.NrInmatriclulare = Convert.ToString(dt.Rows[i]["NrInmatriclulare"]);
+                    ma.NrInmatriculare = Convert.ToString(dt.Rows[i]["NrInmatriculare"]);
                     ma.Marca = Convert.ToString(dt.Rows[i]["Marca"]);
                     ma.Model = Convert.ToString(dt.Rows[i]["Model"]);
                     ma.Username = Convert.ToString(dt.Rows[i]["Username"]);
@@ -166,7 +166,7 @@ namespace VehiDenceAPI.Models
         public Response DeleteMasina(Masina masina, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Delete from Masina where username='"+masina.Username+"' and NrInmatriclulare='"+masina.NrInmatriclulare+"'", connection);
+            SqlCommand cmd = new SqlCommand("Delete from Masina where username='"+masina.Username+"' and NrInmatriculare='"+masina.NrInmatriculare+"'", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
