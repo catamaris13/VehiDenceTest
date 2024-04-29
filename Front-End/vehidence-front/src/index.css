@@ -12,7 +12,7 @@ body {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin: 0;
-  height: 100vh;
+  height: 120vh;
   background: linear-gradient(#f09009,#ea0909);
 
 }
@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: 70px;
+  margin-top: 20px;
   padding-bottom: 30px;
   width: 70%;
   height: 40%;
@@ -106,5 +106,9 @@ body {
   background-color: #3c009d;
   color: #f8f8f8;
   padding: 8px 30px;
+  cursor: pointer
 }
-
+.validation{
+  margin: auto;
+  margin-top: 10%;
+}
