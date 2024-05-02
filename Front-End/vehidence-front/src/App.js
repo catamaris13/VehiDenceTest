@@ -31,7 +31,7 @@ import Login from './LoginSignUp/Login';
 import SignUp from './LoginSignUp/SignUp';
 import Home from "./Home";
 import EmailValidation from './EmailValidation/EmailValidation';
-
+import MyAccount from './MyAccount/MyAccount';
 function App() {
   return (
     <div className="App">
@@ -41,6 +41,7 @@ function App() {
          <Route path='/signup' element={<SignUp/>}/>
          <Route path='/email_validation' element={<EmailValidation/>}/>
          <Route path='*' element={<Home/>}/>
+         <Route path='/myaccount' element={<MyAccount/>}/>
 
         </Routes>
       </Router>

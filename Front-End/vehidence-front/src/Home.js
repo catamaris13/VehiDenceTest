@@ -4,7 +4,7 @@ const Home = () => {
       <nav className="navbar">
       <h1>Vehi Dence</h1>
       <div className="links">
-        <a href="/login" style={{ 
+        <a href="/myaccount" style={{ 
           color: 'white', 
           backgroundColor: '#3c009d',
           borderRadius: '10px', 

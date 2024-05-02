@@ -15,35 +15,7 @@ const Login = () => {
     const [token, setToken] = useState('');
     const [id, setId] = useState('');
     const [isValid, setisVaid] = useState('');
-    /*const handleLogin = async() => {
-        try {
-            const response = await fetch('http://localhost:5277/api/User/Login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({id, name, password, email, username, phoneNumber, isValid, token}),
-
-            })
-            const responseData = await response.json(); 
-        
-        if (response.ok) {
-
-            if (responseData.statusCode === 200) {
-                window.location.href = '/home';
-            } else {
-                console.error('Login failed:', responseData.statusMessage);
-            }
-
-        } else {
-            
-            console.error('HTTP error:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-    }
-    }*/
-
+   
     const handleLogin = (e)=>{
         
         e.preventDefault();
@@ -66,7 +38,7 @@ const Login = () => {
             if(dt.statusCode===200)
             {
               
-                localStorage.setItem("username",username);
+                localStorage.setItem('email',email);
                 history("/home");
                 //window.location.href('/signup')
             }

@@ -73,6 +73,20 @@ namespace VehiDenceAPI.Controllers
             return response;
         }
 
+        [HttpPut]
+        [Route("Update")]
+        public Response UpdateUser(Users user)
+        {
+            Response response = new Response();
+            SqlConnection connection =
+                new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+
+            response=dal.UserUpdate(user, connection);
+
+            return response;
+
+        }
         [HttpDelete]
         [Route("Delete")]
         public Response DeleteUser(Users user)
@@ -83,6 +97,19 @@ namespace VehiDenceAPI.Controllers
             Dal dal = new Dal();
             response = dal.DeleteUser(user, connection);
             return response;
+        }
+
+        [HttpGet]
+        [Route("All/Users")]
+        public List<Users> GetUsers()
+        {
+            List<Users> users = new List<Users>();
+            SqlConnection connection =
+                new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+
+            users=dal.GetUsers(connection);
+            return users;
         }
         
         [HttpGet]

@@ -51,6 +51,41 @@ namespace VehiDenceAPI.Models
             return response;
         }
 
+        public Response UserUpdate(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+
+            connection.Open();
+            
+            SqlCommand command = new SqlCommand(
+                "UPDATE Users SET Name = @Name, Password = @Password, username = @Username, PhoneNo = @PhoneNo, IsValid = @IsValid WHERE Email=@Email",
+                connection);
+
+            command.Parameters.AddWithValue("@Name", user.Name);
+            command.Parameters.AddWithValue("@Password", user.Password);
+            command.Parameters.AddWithValue("@Email", user.Email);
+            command.Parameters.AddWithValue("@Username", user.username);
+            command.Parameters.AddWithValue("@PhoneNo", user.PhoneNo);
+            command.Parameters.AddWithValue("@Id", user.Id);
+            command.Parameters.AddWithValue("@isValid", true);
+            
+            int queryResult = command.ExecuteNonQuery();
+            connection.Close();
+
+            if (queryResult > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "User update successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User update failed";
+            }
+
+            return response;
+
+        }
         public Response Login(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -102,6 +137,29 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        
+        public List<Users> GetUsers(SqlConnection connection)
+        {
+            Response response = new Response();
+            List<Users> users = new List<Users>();
+            connection.Open();
+            SqlCommand command = new SqlCommand("Select * from Users", connection);
+            SqlDataReader read = command.ExecuteReader();
+            while (read.Read())
+            {
+                Users user = new Users();
+                user.Name = read["Name"].ToString();
+                user.Password = read["Password"].ToString();
+                user.Email = read["Email"].ToString();
+                user.username = read["username"].ToString();
+                user.PhoneNo = read["PhoneNo"].ToString();
+                users.Add(user);
+            }
+            connection.Close();
+
+            return users;
+        }
+        
         public Response AddMasina(Masina masina, SqlConnection connection)
         {
             Response response = new Response();
@@ -141,6 +199,7 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
+        
         public Response MasinaList(Masina masina, SqlConnection connetion)
         {
             Response response = new Response();

@@ -39,17 +39,9 @@ const SignUp = () => {
             console.log(dt.StatusCode);
             
                 console.log(data)
-              
-                localStorage.setItem("username",username);
-                localStorage.setItem("name",name);
-                localStorage.setItem("email",email);
-                localStorage.setItem("password",password);
-                localStorage.setItem("phone",phoneNumber);
 
                 history("/login");
                 //window.location.href('/signup')
-             
-            
             
           })
           
