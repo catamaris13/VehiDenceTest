@@ -86,6 +86,32 @@ namespace VehiDenceAPI.Models
             return response;
 
         }
+        public Response ResetPassword(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Email=@Email",connection);
+            command.Parameters.AddWithValue("@Password", user.Password);
+            command.Parameters.AddWithValue("@Email", user.Email);
+            int queryResult = command.ExecuteNonQuery();
+            connection.Close();
+
+            if (queryResult > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Resset password successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Resset password failed";
+            }
+
+            return response;
+
+        }
         public Response Login(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -121,7 +147,7 @@ namespace VehiDenceAPI.Models
         public Response DeleteUser(Users users, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'");
+            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'",connection);
             connection.Open();
             int i = command.ExecuteNonQuery();
             connection.Close();

@@ -15,9 +15,11 @@ const MyAccount = () => {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [token, setToken] = useState('');
+    const [modalOpen, setModalOpen] = useState(false); // State for modal
     const emailUser = localStorage.getItem('email');
+
     useEffect(() => {
-        axios.get('http://localhost:5277/api/User/All/Users')
+        axios.get('https://localhost:7165/api/User/All/Users')
             .then(response => {
                 const userData = response.data; 
                 if (userData.length > 0) {
@@ -45,7 +47,7 @@ const MyAccount = () => {
             Name:name,
             PhoneNo:phone
         }
-        axios.put('http://localhost:5277/api/User/Update', userData)
+        axios.put('https://localhost:7165/api/User/Update', userData)
         .then(response =>{
             if(response.data.statusCode){
                 alert("Your account has been updated successfully!");
@@ -60,7 +62,15 @@ const MyAccount = () => {
         })
     }
 
-    const handleDelete = () =>{
+    const handleDeleteConfirmation = () => {
+        setModalOpen(true);
+    };
+
+    const handleDeleteCancel = () => {
+        setModalOpen(false);
+    };
+
+    const handleDeleteConfirm = () =>{
         const userData={
             Username:username,
             Password:password,
@@ -69,17 +79,17 @@ const MyAccount = () => {
             Name:name,
             PhoneNo:phone
         }
-        axios.delete('http://localhost:5277/api/User/Delete', userData)
+        axios.delete('https://localhost:7165/api/User/Delete', {data:userData,headers: { "Content-Type": "application/json" }})
         .then(response =>{
-            if(response.data.statusCode){
+            if(response.data.statusCode==200){
                 alert("Your account has been deleted!");
                 history('/homepage');
             }
             else{
-                alert("Error")
+                alert("Error");
             }
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Failed to delete', error);
         })
     }
@@ -135,10 +145,18 @@ const MyAccount = () => {
             </div>
             <div style={{ display: "flex"}}>
                     <button className="button" onClick={handleSave}>Save</button>
-                    <button className="button" onClick={handleDelete}>Delete user</button>
+                    <button className="button" onClick={handleDeleteConfirmation}>Delete user</button>
             </div>
-           
 
+            {modalOpen && (
+                <div className="modal-container">
+                    <div className="modal-content">
+                        <p>Are you sure you want to delete your account?</p>
+                        <button onClick={handleDeleteConfirm}>Yes</button> 
+                        <button onClick={handleDeleteCancel}>No</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
