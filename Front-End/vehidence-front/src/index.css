@@ -112,7 +112,7 @@ body {
   margin: auto;
   margin-top: 10%;
 }
-.modal-container {
+.popup-container {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -125,35 +125,38 @@ body {
   align-items: center;
 }
 
-.modal-content {
+.popup-content {
   background-color:  red;
-  ;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
-.modal-content p {
+.popup-content p {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 9px;
   width: 100%;
   margin-top: 30px;
-  font-size: 70px;
-  color: #3c009d
+  font-size: 35px;
+  color: #3c009d;
 }
 
-.modal-content button {
+.popup-content button {
+  display: inline-block;
+  flex-direction: row;
   border-radius: 20px;
   border: none;
   outline: none;
   margin: auto;
-  margin-top: 40px;
-  font-size: 40px;
+  margin-top: 35px;
+  margin-right: 40px;
+  font-size: 25px;
   background-color: #3c009d;
   color: #f8f8f8;
-  padding: 8px 30px;
+  padding: 8px 20px;
   cursor: pointer;
  
 }
