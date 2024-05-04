@@ -96,18 +96,6 @@ body {
   margin: 0px 30px;
   
 }
-.button {
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  margin: auto;
-  margin-top: 40px;
-  font-size: 40px;
-  background-color: #3c009d;
-  color: #f8f8f8;
-  padding: 8px 30px;
-  cursor: pointer
-}
 .validation{
   margin: auto;
   margin-top: 10%;
@@ -159,4 +147,43 @@ body {
   padding: 8px 20px;
   cursor: pointer;
  
+}
+.button {
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  margin: auto;
+  margin-top: 40px;
+  font-size: 40px;
+  background-color: #3c009d;
+  color: #f8f8f8;
+  padding: 8px 30px;
+  cursor: pointer;
+}
+.button-next {
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 40px;
+  background-color: #3c009d;
+  color: #f8f8f8;
+  padding: 8px 30px;
+  cursor: pointer;
+  margin-right: 0px; /* Adaugă un spațiu mic între butoane */
+  margin-top: 35px;
+}
+
+/* Afișează butoanele în centru */
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Stilurile pentru primul și ultimul buton */
+.button-next:first-child {
+  margin-right: 65px; /* Spațiul între primul buton și aliniere */
+}
+
+.button-next:last-child {
+  margin-left: 65px; /* Spațiul între ultimul buton și aliniere */
 }

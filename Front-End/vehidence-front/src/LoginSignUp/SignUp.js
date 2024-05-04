@@ -50,6 +50,9 @@ const SignUp = () => {
         })
     }
 
+    const goToLogIn = () =>{
+        history("/login");
+    }
 
     return (
         <div className="login">
@@ -104,7 +107,10 @@ const SignUp = () => {
                     />
                 </div>
             </div>
-            <button className="button" onClick={handleSignup}>Sign up</button>
+            <div className="button-container">
+                <button className="button-next" onClick={handleSignup}>Sign up</button>
+                <button className="button-next" onClick={goToLogIn}>Login</button>
+            </div>
         </div>
     );
 };
