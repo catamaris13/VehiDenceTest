@@ -148,7 +148,62 @@ namespace VehiDenceAPI.Controllers
             // Redirect the user to a page indicating successful validation
            
         }
-       
+        [HttpPost]
+        [Route("ResetPassword")]
+        public Response RessetPassword(Users user)
+        {
+            Response response = new Response();
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+            response = dal.ResetPassword(user, connection);
+
+            return response;
+
+            // Redirect the user to a page indicating successful validation
+
+        }
+        [HttpPost]
+        [Route("SendEmailPassword")]
+        public async Task<IActionResult> SendEmailPassword(Users user)
+        {
+            Response response = new Response();
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+            user.Token = Guid.NewGuid().ToString();
+            response = dal.ResetToken(user, connection);
+            Console.WriteLine(user.Token);
+
+            // Generate unique token for email validation
+
+
+            // Save the token in the database along with the user's email
+
+            // Send validation email
+            if (response.StatusCode == 200)
+            {
+                //string validationLink = $"http://localhost:5277/api/User/ValidateEmail?username={user.username}&token={user.Token}";
+                string resetLink = $"http://localhost:3000/resset_password?email={user.Email}&token={user.Token}";
+                string subject = "Reset Password";
+                string message = $"Hi {user.Name}! Please click the following link to reset your password: {resetLink}";
+
+                try
+                {
+
+                    await _emailService.SendEmailAsync(user.Email, subject, message);
+
+                    return StatusCode(200, "Email sent successful. Please check your email for resset instructions.");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Failed to send email: {ex.Message}");
+                }
+            }
+            return StatusCode(500, "Failed to send email");
+
+        }
+
+
+
     }
 
 

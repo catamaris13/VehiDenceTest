@@ -28,7 +28,7 @@ const Login = () => {
           Name:name,
           PhoneNo:phoneNumber
         }
-        const url='http://localhost:5277/api/User/Login';
+        const url='https://localhost:7165/api/User/Login';
         axios.post(url,data)
         .then((result)=>{
             const dt=result.data;
@@ -52,6 +52,13 @@ const Login = () => {
         .catch((error)=>{
             console.log(error);
         })
+    }
+
+    const goToSignUp = () =>{
+        history("/signup")
+    }
+    const goToForgotPassword = () =>{
+        history("/resset_password")
     }
 
     return (
@@ -78,7 +85,12 @@ const Login = () => {
                     />
                 </div>
             </div>
-            <button className="button" onClick={handleLogin}>Login</button>
+            <a  onClick={goToForgotPassword} style={{ color: "#3c009d", marginLeft: "90px", textDecoration: "none", marginTop: "30px" }}>Forgot Password</a>
+            <div className="button-container" style={{marginTop:"0px"}}> 
+                <button className="button-next" onClick={handleLogin}>Login</button>
+                <button className="button-next" onClick={goToSignUp}>Sign up</button>
+            </div>
+           
         </div>
     );
 };

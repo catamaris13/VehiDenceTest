@@ -32,6 +32,7 @@ import Login from "./LoginSignUp/Login";
 import SignUp from "./LoginSignUp/SignUp";
 import EmailValidation from './EmailValidation/EmailValidation';
 import MyAccount from './MyAccount/MyAccount';
+import RessetPassword from './RessetPassword/RessetPassword'
 
 
 
@@ -44,6 +45,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/email_validation' element={<EmailValidation />} />
+            <Route path='/resset_password' element={<RessetPassword />} />
             <Route path='/myaccount' element={<MyAccount />} />
             <Route path='*' element={<Home />} />
           </Routes>

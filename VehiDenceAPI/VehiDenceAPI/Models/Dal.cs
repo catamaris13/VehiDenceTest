@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace VehiDenceAPI.Models
 {
@@ -25,6 +26,25 @@ namespace VehiDenceAPI.Models
             {
                 response.StatusCode = 100;
                 response.StatusMessage = "Registration failed";
+            }
+            return response;
+        }
+        public Response ResetToken(Users user,SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Update Users set Token='" + user.Token + "' where Email='" + user.Email + "'",connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Token changed successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Token change failed";
             }
             return response;
         }
@@ -92,9 +112,10 @@ namespace VehiDenceAPI.Models
 
             connection.Open();
 
-            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Email=@Email",connection);
+            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Email=@Email and Token=@Token",connection);
             command.Parameters.AddWithValue("@Password", user.Password);
             command.Parameters.AddWithValue("@Email", user.Email);
+            command.Parameters.AddWithValue("@Token", user.Token);
             int queryResult = command.ExecuteNonQuery();
             connection.Close();
 

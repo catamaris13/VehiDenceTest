@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Home = () => {
-  const login = localStorage.getItem('islogin');
-  console.log("login value:", login);
+  const storedLogin = localStorage.getItem("islogin");
+  const initialLogin = storedLogin ? JSON.parse(storedLogin) : false;
+  const [login, setLogin] = useState(initialLogin);
+  const [destination, setDestination] = useState("/login");
 
-  let destination;
-  if(Boolean(login)){
-    destination = '/myaccount';
-  }
-  else{
-    destination = '/login'
-  }
+  useEffect(() => {
+    if (login) {
+      setDestination("/myaccount");
+    } else {
+      setDestination("/login");
+    }
+  }, [login]); 
 
   return (
     <div className="home">
@@ -25,7 +28,7 @@ const Home = () => {
               borderRadius: "10px",
               padding: "8px 20px",
             }}
-            >
+          >
             My account
           </Link>
         </div>
