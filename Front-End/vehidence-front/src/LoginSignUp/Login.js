@@ -1,6 +1,6 @@
 import emailIcon from "../assets/email_img.png";
 import passwordIcon from "../assets/password_img.png";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import '../index.css'
 import axios from 'axios';
 import{ useNavigate} from "react-router-dom";
@@ -15,11 +15,10 @@ const Login = () => {
     const [token, setToken] = useState('');
     const [id, setId] = useState('');
     const [isValid, setisVaid] = useState('');
-   
+    const [isLogin, setIsLogin] = useState(false);
     const handleLogin = (e)=>{
         
         e.preventDefault();
-        console.log(username);
         
         const data ={
           Username:username,
@@ -29,16 +28,16 @@ const Login = () => {
           Name:name,
           PhoneNo:phoneNumber
         }
-        const url='https://localhost:7165/api/User/Login';
-        console.log(data)
+        const url='http://localhost:5277/api/User/Login';
         axios.post(url,data)
         .then((result)=>{
             const dt=result.data;
             
             if(dt.statusCode===200)
             {
-              
-                localStorage.setItem('email',email);
+                setIsLogin(true);
+                localStorage.setItem('islogin',true);
+               // localStorage.setItem('email',email);
                 history("/home");
                 //window.location.href('/signup')
             }

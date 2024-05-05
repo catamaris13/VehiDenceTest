@@ -17,9 +17,8 @@ const MyAccount = () => {
     const [token, setToken] = useState('');
     const [modalOpen, setModalOpen] = useState(false); // State for modal
     const emailUser = localStorage.getItem('email');
-
     useEffect(() => {
-        axios.get('https://localhost:7165/api/User/All/Users')
+        axios.get('http://localhost:5277/api/User/All/Users')
             .then(response => {
                 const userData = response.data; 
                 if (userData.length > 0) {
@@ -47,7 +46,7 @@ const MyAccount = () => {
             Name:name,
             PhoneNo:phone
         }
-        axios.put('https://localhost:7165/api/User/Update', userData)
+        axios.put('http://localhost:5277/api/User/Update', userData)
         .then(response =>{
             if(response.data.statusCode){
                 alert("Your account has been updated successfully!");
@@ -69,6 +68,10 @@ const MyAccount = () => {
     const handleDeleteCancel = () => {
         setModalOpen(false);
     };
+    const handleLogout = () =>{
+        localStorage.setItem('islogin', false);
+        history('/home');
+    }
 
     const handleDeleteConfirm = () =>{
         const userData={
@@ -79,7 +82,7 @@ const MyAccount = () => {
             Name:name,
             PhoneNo:phone
         }
-        axios.delete('https://localhost:7165/api/User/Delete', {data:userData,headers: { "Content-Type": "application/json" }})
+        axios.delete('http://localhost:5277/api/User/Delete', {data:userData,headers: { "Content-Type": "application/json" }})
         .then(response =>{
             if(response.data.statusCode==200){
                 alert("Your account has been deleted!");
@@ -146,11 +149,12 @@ const MyAccount = () => {
             <div style={{ display: "flex"}}>
                     <button className="button" onClick={handleSave}>Save</button>
                     <button className="button" onClick={handleDeleteConfirmation}>Delete user</button>
+                    <button className="button" onClick={handleLogout}>Log out</button>
             </div>
 
             {modalOpen && (
-                <div className="modal-container">
-                    <div className="modal-content">
+                <div className="popup-container">
+                    <div className="popup-content">
                         <p>Are you sure you want to delete your account?</p>
                         <button onClick={handleDeleteConfirm}>Yes</button> 
                         <button onClick={handleDeleteCancel}>No</button>
