@@ -20,10 +20,16 @@ const EmailValidation = () => {
 
         if (username && token) {
             // Call backend API to validate the username and token
-            axios.get(`http://localhost:5277/api/User/ValidateEmail?username=${username}&token=${token}`)
+            axios.get(`https://localhost:7165/api/User/ValidateEmail?username=${username}&token=${token}`)
                 .then(response => {
-                    console.log(response.data);
-                    setValidationSuccess(true); // Update validation status
+                    if(response.data.statusCode == 200){
+                        console.log(response.data);
+                        setValidationSuccess(true); // Update validation status
+                    }
+                    else{
+                        setValidationSuccess(false);
+                    }
+                    
                 })
                 .catch(error => {
                     console.error('Error:', error);

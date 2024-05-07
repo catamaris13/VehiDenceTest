@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace VehiDenceAPI.Models
 {
@@ -28,6 +29,25 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        public Response ResetToken(Users user,SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Update Users set Token='" + user.Token + "' where Email='" + user.Email + "'",connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Token changed successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Token change failed";
+            }
+            return response;
+        }
         public Response UserValidation(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -50,7 +70,101 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        
+        public Response UserValidationEmail(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+            connection.Open();
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM Users WHERE Token = @Token",
+                connection);
 
+            command.Parameters.AddWithValue("@Token", user.Token);
+
+            // Execută interogarea și obține rezultatele
+            SqlDataReader reader = command.ExecuteReader();
+    
+            // Verifică dacă există rânduri în rezultate
+            if (reader.HasRows)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Validation successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Validation failed";
+            }
+
+            // Închide conexiunea și eliberează resursele
+            reader.Close();
+            connection.Close();
+
+            return response;
+        }
+
+
+        public Response UserUpdate(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+
+            connection.Open();
+            
+            SqlCommand command = new SqlCommand(
+                "UPDATE Users SET Name = @Name, Password = @Password, username = @Username, PhoneNo = @PhoneNo, IsValid = @IsValid WHERE Email=@Email",
+                connection);
+
+            command.Parameters.AddWithValue("@Name", user.Name);
+            command.Parameters.AddWithValue("@Password", user.Password);
+            command.Parameters.AddWithValue("@Email", user.Email);
+            command.Parameters.AddWithValue("@Username", user.username);
+            command.Parameters.AddWithValue("@PhoneNo", user.PhoneNo);
+            command.Parameters.AddWithValue("@Id", user.Id);
+            command.Parameters.AddWithValue("@isValid", true);
+            
+            int queryResult = command.ExecuteNonQuery();
+            connection.Close();
+
+            if (queryResult > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "User update successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "User update failed";
+            }
+
+            return response;
+
+        }
+        public Response ResetPassword(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Token=@Token",connection);
+            command.Parameters.AddWithValue("@Password", user.Password);
+            command.Parameters.AddWithValue("@Token", user.Token);
+            int queryResult = command.ExecuteNonQuery();
+            connection.Close();
+
+            if (queryResult > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Resset password successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Resset password failed";
+            }
+
+            return response;
+
+        }
         public Response Login(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -86,7 +200,7 @@ namespace VehiDenceAPI.Models
         public Response DeleteUser(Users users, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'");
+            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'",connection);
             connection.Open();
             int i = command.ExecuteNonQuery();
             connection.Close();
@@ -102,6 +216,29 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        
+        public List<Users> GetUsers(SqlConnection connection)
+        {
+            Response response = new Response();
+            List<Users> users = new List<Users>();
+            connection.Open();
+            SqlCommand command = new SqlCommand("Select * from Users", connection);
+            SqlDataReader read = command.ExecuteReader();
+            while (read.Read())
+            {
+                Users user = new Users();
+                user.Name = read["Name"].ToString();
+                user.Password = read["Password"].ToString();
+                user.Email = read["Email"].ToString();
+                user.username = read["username"].ToString();
+                user.PhoneNo = read["PhoneNo"].ToString();
+                users.Add(user);
+            }
+            connection.Close();
+
+            return users;
+        }
+        
         public Response AddMasina(Masina masina, SqlConnection connection)
         {
             Response response = new Response();
@@ -141,6 +278,7 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
+        
         public Response MasinaList(Masina masina, SqlConnection connetion)
         {
             Response response = new Response();
