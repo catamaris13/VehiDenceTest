@@ -33,8 +33,9 @@ import SignUp from "./LoginSignUp/SignUp";
 import EmailValidation from './EmailValidation/EmailValidation';
 import MyAccount from './MyAccount/MyAccount';
 import RessetPassword from './RessetPassword/RessetPassword'
-
-
+import React from 'react';
+import VerifyEmailPage from './RessetPassword/VerifyEmailPage';
+import EnterEmailPage from './RessetPassword/EnterEmailPage';
 
 function App() {
 
@@ -45,8 +46,10 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/email_validation' element={<EmailValidation />} />
-            <Route path='/resset_password' element={<RessetPassword />} />
+            <Route path='/reset_password' element={<RessetPassword />} />
             <Route path='/myaccount' element={<MyAccount />} />
+            <Route path="/enter_email" element={<EnterEmailPage/>}/>
+            <Route path='/verify_email_lost_password' element={<VerifyEmailPage/>}/>
             <Route path='*' element={<Home />} />
           </Routes>
         </Router>

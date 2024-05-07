@@ -20,7 +20,7 @@ const MyAccount = () => {
   const emailUser = localStorage.getItem("email");
   useEffect(() => {
     axios
-      .get("https://localhost:7165/api/User/All/Users")
+      .get("http://localhost:5277/api/User/All/Users")
       .then((response) => {
         const userData = response.data;
         if (userData.length > 0) {
@@ -55,7 +55,7 @@ const MyAccount = () => {
       PhoneNo: phone,
     };
     axios
-      .put("https://localhost:7165/api/User/Update", userData)
+      .put("http://localhost:5277/api/User/Update", userData)
       .then((response) => {
         if (response.data.statusCode) {
           alert("Your account has been updated successfully!");

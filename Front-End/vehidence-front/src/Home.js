@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import React from "react";
 
 const Home = () => {
   const storedLogin = localStorage.getItem("islogin");

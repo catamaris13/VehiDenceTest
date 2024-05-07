@@ -70,6 +70,39 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        
+        public Response UserValidationEmail(Users user, SqlConnection connection)
+        {
+            Response response = new Response();
+            connection.Open();
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM Users WHERE Token = @Token",
+                connection);
+
+            command.Parameters.AddWithValue("@Token", user.Token);
+
+            // Execută interogarea și obține rezultatele
+            SqlDataReader reader = command.ExecuteReader();
+    
+            // Verifică dacă există rânduri în rezultate
+            if (reader.HasRows)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Validation successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Validation failed";
+            }
+
+            // Închide conexiunea și eliberează resursele
+            reader.Close();
+            connection.Close();
+
+            return response;
+        }
+
 
         public Response UserUpdate(Users user, SqlConnection connection)
         {
@@ -112,9 +145,8 @@ namespace VehiDenceAPI.Models
 
             connection.Open();
 
-            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Email=@Email and Token=@Token",connection);
+            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Token=@Token",connection);
             command.Parameters.AddWithValue("@Password", user.Password);
-            command.Parameters.AddWithValue("@Email", user.Email);
             command.Parameters.AddWithValue("@Token", user.Token);
             int queryResult = command.ExecuteNonQuery();
             connection.Close();

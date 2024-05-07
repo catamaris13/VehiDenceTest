@@ -146,8 +146,24 @@ namespace VehiDenceAPI.Controllers
             return response;
 
             // Redirect the user to a page indicating successful validation
-           
         }
+        
+        [HttpGet]
+        [Route("ValidareLinkParola")]
+        public Response ValidateEmailForgotPassword([FromQuery] string token)
+        {
+            Response response = new Response();
+            Users user=new Users();
+            user.Token = token;
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
+            Dal dal = new Dal();
+            response = dal.UserValidationEmail(user, connection);
+
+            return response;
+
+            // Redirect the user to a page indicating successful validation
+        }
+        
         [HttpPost]
         [Route("ResetPassword")]
         public Response RessetPassword(Users user)
@@ -182,7 +198,7 @@ namespace VehiDenceAPI.Controllers
             if (response.StatusCode == 200)
             {
                 //string validationLink = $"http://localhost:5277/api/User/ValidateEmail?username={user.username}&token={user.Token}";
-                string resetLink = $"http://localhost:3000/resset_password?email={user.Email}&token={user.Token}";
+                string resetLink = $"http://localhost:3000/reset_password?token={user.Token}";
                 string subject = "Reset Password";
                 string message = $"Hi {user.Name}! Please click the following link to reset your password: {resetLink}";
 

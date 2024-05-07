@@ -160,23 +160,38 @@ body {
   padding: 8px 30px;
   cursor: pointer;
 }
-.button-next {
+
+.button-next-login{
   border-radius: 20px;
   border: none;
   outline: none;
-  font-size: 40px;
+  font-size: 30px;
   background-color: #3c009d;
   color: #f8f8f8;
   padding: 8px 30px;
   cursor: pointer;
-  margin-right: 0px; /* Adaugă un spațiu mic între butoane */
-  margin-top: 35px;
+  margin-top: 15px;
+  margin-right: 20px; 
+  margin-left: 20px;
 }
 
-/* Afișează butoanele în centru */
 .button-container {
   display: flex;
   justify-content: center;
+}
+
+.button-next {
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 30px;
+  background-color: #3c009d;
+  color: #f8f8f8;
+  padding: 8px 30px;
+  cursor: pointer;
+  margin-right: 20px; 
+  margin-left: 20px;
+  margin-top: 35px;
 }
 
 /* Stilurile pentru primul și ultimul buton */
@@ -186,4 +201,18 @@ body {
 
 .button-next:last-child {
   margin-left: 65px; /* Spațiul între ultimul buton și aliniere */
+}
+.content-center-column{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 20px;
+  padding-bottom: 30px;
+  width: 70%;
+  height: 40%;
+}
+.smaller-button {
+  margin-top: 20px;
+  font-size: 30px; /* Adjust the font size */
+  padding: 10px 20px; /* Adjust the padding */
 }
