@@ -1,6 +1,9 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using VehiDenceAPI.Controllers;
+using static Hangfire.Storage.JobStorageFeatures;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace VehiDenceAPI.Models
@@ -417,6 +420,55 @@ namespace VehiDenceAPI.Models
             {
                 response.StatusCode = 100;
                 response.StatusMessage = "Nu au fost gasite Asigurari";
+                response.listAsigurare = null;
+            }
+            return response;
+        }
+        public Response VerificareExpirareAsigurare(SqlConnection connection)
+        {
+            Response response=new Response();
+            SqlDataAdapter da = new SqlDataAdapter("SELECT distinct Users.Email, Users.Name  " +
+    "FROM Users  " +
+    "JOIN Masina  ON Users.username = Masina.Username " +
+    "JOIN Asigurare ON Masina.NrInmatriculare = Asigurare.NrInmatriculare " +
+    "WHERE DATEDIFF(day, GETDATE(), Asigurare.DataExpirare) <= 7;", connection);
+
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Users> list = new List<Users>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+
+                    Users us = new Users();
+                   
+                    us.Email = Convert.ToString(dt.Rows[i]["Email"]);
+                    us.Name = Convert.ToString(dt.Rows[i]["Name"]);
+
+
+                    list.Add(us);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Asigurari Expirate Gasite";
+                    response.listUsers = list;
+                    
+
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Asigurari Expirate";
+                    response.listAsigurare = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Asigurari Expirate";
                 response.listAsigurare = null;
             }
             return response;

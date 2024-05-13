@@ -7,6 +7,7 @@ using User.Management.Service.Models;
 using User.Management.Service.Services;
 using VehiDenceAPI.Data;
 using VehiDenceAPI.Models;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -36,6 +37,13 @@ builder.Services.AddCors(option =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHangfire((sp,config)=>
+{
+    var connectionstring = sp.GetRequiredService<IConfiguration>().GetConnectionString("VehiDenceConnectionString");
+    config.UseSqlServerStorage(connectionstring);
+
+});
+builder.Services.AddHangfireServer();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -54,6 +62,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+app.UseHangfireDashboard();
 
 app.UseHttpsRedirection();
 
