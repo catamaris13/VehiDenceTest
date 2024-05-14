@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using VehiDenceAPI.Controllers;
 using static Hangfire.Storage.JobStorageFeatures;
@@ -73,7 +74,6 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-
         public Response UserValidationEmail(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -105,8 +105,6 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
-
-
         public Response UserUpdate(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -199,7 +197,6 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
-
         public Response DeleteUser(Users users, SqlConnection connection)
         {
             Response response = new Response();
@@ -219,7 +216,6 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-
         public List<Users> GetUsers(SqlConnection connection)
         {
             Response response = new Response();
@@ -281,7 +277,6 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
-
         public Response MasinaList(Masina masina, SqlConnection connetion)
         {
             Response response = new Response();
@@ -343,6 +338,7 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+
         public Response AddAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();
@@ -381,7 +377,6 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-
         public Response AsigutareList(Asigurare asigurare, SqlConnection connetion)
         {
             Response response = new Response();
@@ -473,6 +468,7 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+
         public Response AddCasco(Casco casco, SqlConnection connection)
         {
             Response response = new Response();
@@ -553,5 +549,255 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+
+        public Response AddItp(ITP itp, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into ITP (NrInmatriculare,DataCreare,DataExpirare) Values ('" + itp.NrInmatriculare + "',GETDATE(),'" + itp.DataExpirare + "')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "ITP successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "ITP failed";
+            }
+            return response;
+        }
+        public Response DeleteITP(ITP itp, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from ITP where NrInmatriculare='" + itp.NrInmatriculare + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response ITPList(ITP itp, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from ITP where NrInmatriculare='" + itp.NrInmatriculare + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<ITP> list = new List<ITP>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    ITP it = new ITP();
+                    it.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    it.NrInmatriculare = Convert.ToString(dt.Rows[i]["NrInmatriculare"]);
+                    it.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    it.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    list.Add(it);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "ITP Gasite";
+                    response.listITP = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite ITP";
+                    response.listITP = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite ITP";
+                response.listITP = null;
+            }
+            return response;
+        }
+
+        public Response AddPermisConducere(PermisConducere permisConducere, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into PermisConducere (Nume,username,DataCreare,DataExpirare,Categorie) Values ('" + permisConducere.Nume + "','" + permisConducere.username + "',GETDATE(),'" + permisConducere.DataExpirare + "','" + permisConducere.Categorie + "')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Carnet successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Carnet failed";
+            }
+            return response;
+        }
+        public Response DeletePermisConducere(PermisConducere permisConducere, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from PermisConducere where username='" + permisConducere.username + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response PermisConducereList(PermisConducere permisConducere, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from PermisConducere where NrInmatriculare='" + permisConducere.username + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<PermisConducere> list = new List<PermisConducere>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    PermisConducere pc = new PermisConducere();
+                    pc.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    pc.Nume = Convert.ToString(dt.Rows[i]["Nume"]);
+                    pc.username = Convert.ToString(dt.Rows[i]["username"]);
+                    pc.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    pc.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    pc.Categorie = Convert.ToString(dt.Rows[i]["Categorie"]);
+                    list.Add(pc);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Permis Gasite";
+                    response.listPermisConducere = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Permise";
+                    response.listPermisConducere = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Permise";
+                response.listPermisConducere = null;
+            }
+            return response;
+        }
+/// <summary>
+/// De aici trebuie modificat codu ca e doar copy paste pentru a fi mai usor
+/// </summary>
+/// <param name="revizieService"></param>
+/// <param name="connection"></param>
+/// <returns></returns>
+        public Response AddRevizieService(RevizieService revizieService, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into RevizieService (Nume,username,DataCreare,DataExpirare,Categorie) Values ('" + permisConducere.Nume + "','" + permisConducere.username + "',GETDATE(),'" + permisConducere.DataExpirare + "','" + permisConducere.Categorie + "')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Carnet successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Carnet failed";
+            }
+            return response;
+        }
+        public Response DeletePermisConducere(PermisConducere permisConducere, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from PermisConducere where username='" + permisConducere.username + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response PermisConducereList(PermisConducere permisConducere, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from PermisConducere where NrInmatriculare='" + permisConducere.username + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<PermisConducere> list = new List<PermisConducere>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    PermisConducere pc = new PermisConducere();
+                    pc.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    pc.Nume = Convert.ToString(dt.Rows[i]["Nume"]);
+                    pc.username = Convert.ToString(dt.Rows[i]["username"]);
+                    pc.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    pc.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    pc.Categorie = Convert.ToString(dt.Rows[i]["Categorie"]);
+                    list.Add(pc);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Permis Gasite";
+                    response.listPermisConducere = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Permise";
+                    response.listPermisConducere = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Permise";
+                response.listPermisConducere = null;
+            }
+            return response;
+        }
+
+
+
+
     }
 }
