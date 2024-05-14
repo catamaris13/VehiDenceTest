@@ -11,7 +11,7 @@ namespace VehiDenceAPI.Models
         public List<Masina> listMasina { get; set; }
         public List<Asigurare> listAsigurare { get; set;}
         public List<Users> listUsers { get; set; } 
-
+        public List<Casco> listCasco { get; set; }
         
 
     }
