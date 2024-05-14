@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hDY634BYXgrqFTzMgkoBQor1S8NgYdzdwtriicuzywvo2ixWSiR/RWEAqc4Dppt1di2gcunty8DjQdBufhymLA==",
+  "dgSpecHash": "AJ3eI18mBqsFESAHhcaf4zwHDUnOXNdyQ5p1TcTG6b7ksdT6ySo2ZTU4l0Mz6RefTFTRHN2Dm5zXEqMwlv3C+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\catal\\OneDrive\\Desktop\\II_PR\\VehiDence\\VehiDenceAPI\\User.Management.Service\\User.Management.Service.csproj",
+  "projectFilePath": "C:\\Users\\catal\\OneDrive\\Desktop\\VehiDence-master\\VehiDenceAPI\\User.Management.Service\\User.Management.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\catal\\.nuget\\packages\\hangfire\\1.8.12\\hangfire.1.8.12.nupkg.sha512",
     "C:\\Users\\catal\\.nuget\\packages\\hangfire.aspnetcore\\1.8.12\\hangfire.aspnetcore.1.8.12.nupkg.sha512",

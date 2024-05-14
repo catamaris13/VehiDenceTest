@@ -473,5 +473,87 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
+        public Response AddCasco(Casco casco, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into Casco (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('" + casco.SerieSasiu + "','" + casco.NrInmatriculare + "',GETDATE(),'" + casco.DataExpirare + "','" + casco.Asigurator + "')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Asigurare successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Asigurare failed";
+            }
+            return response;
+        }
+        public Response DeleteCasco(Casco casco, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from Casco where NrInmatriculare='" + casco.NrInmatriculare + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response CascoList(Casco casco, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from Casco where NrInmatriculare='" + casco.NrInmatriculare + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Casco> list = new List<Casco>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Casco cas = new Casco();
+                    cas.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    cas.SerieSasiu = Convert.ToString(dt.Rows[i]["SerieSasiu"]);
+                    cas.NrInmatriculare = Convert.ToString(dt.Rows[i]["NrInmatriculare"]);
+                    cas.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    cas.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    cas.Asigurator = Convert.ToString(dt.Rows[i]["Asigurator"]);
+                    list.Add(cas);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Asigurare Gasite";
+                    response.listCasco = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Asigurari";
+                    response.listCasco = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Asigurari";
+                response.listCasco = null;
+            }
+            return response;
+        }
+
     }
+    
 }

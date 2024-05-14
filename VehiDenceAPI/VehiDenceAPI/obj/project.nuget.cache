@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iOsv2OGjdaQ12RdFvKSwMC+qm27DBBgcdOuYRp23QxEU6JK0BsCGJ0naordkrvBbPEayhiKQn7DAypTWAjuDtg==",
+  "dgSpecHash": "qz0ZcHsFfQOQMyW9JbXijltIuB/65+8NKCZhzkMm+gHmgjVilWPEbc4xiqE8ResNxGb3ZQQezvB1j6ajNs8D9w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\catal\\OneDrive\\Desktop\\II_PR\\VehiDence\\VehiDenceAPI\\VehiDenceAPI\\VehiDenceAPI.csproj",
+  "projectFilePath": "C:\\Users\\catal\\OneDrive\\Desktop\\VehiDence-master\\VehiDenceAPI\\VehiDenceAPI\\VehiDenceAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\catal\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\catal\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
