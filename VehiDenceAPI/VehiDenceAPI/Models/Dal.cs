@@ -13,7 +13,7 @@ namespace VehiDenceAPI.Models
         public Response Registration(Users user, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Insert into Users(Name,Email,Password,PhoneNo,username,Token,IsValid) Values('" + user.Name + "','" + user.Email + "','" + user.Password + "','" + user.PhoneNo + "','" + user.username + "','"+user.Token+"',0)", connection);
+            SqlCommand cmd = new SqlCommand("Insert into Users(Name,Email,Password,PhoneNo,username,Token,IsValid) Values('" + user.Name + "','" + user.Email + "','" + user.Password + "','" + user.PhoneNo + "','" + user.username + "','" + user.Token + "',0)", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -32,10 +32,10 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-        public Response ResetToken(Users user,SqlConnection connection)
+        public Response ResetToken(Users user, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Update Users set Token='" + user.Token + "' where Email='" + user.Email + "'",connection);
+            SqlCommand cmd = new SqlCommand("Update Users set Token='" + user.Token + "' where Email='" + user.Email + "'", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -54,7 +54,7 @@ namespace VehiDenceAPI.Models
         public Response UserValidation(Users user, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Update Users set IsValid=1 where username='"+user.username+"' and Token='"+user.Token+"'", connection);
+            SqlCommand cmd = new SqlCommand("Update Users set IsValid=1 where username='" + user.username + "' and Token='" + user.Token + "'", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -73,7 +73,7 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-        
+
         public Response UserValidationEmail(Users user, SqlConnection connection)
         {
             Response response = new Response();
@@ -86,7 +86,7 @@ namespace VehiDenceAPI.Models
 
             // Execută interogarea și obține rezultatele
             SqlDataReader reader = command.ExecuteReader();
-    
+
             // Verifică dacă există rânduri în rezultate
             if (reader.HasRows)
             {
@@ -112,7 +112,7 @@ namespace VehiDenceAPI.Models
             Response response = new Response();
 
             connection.Open();
-            
+
             SqlCommand command = new SqlCommand(
                 "UPDATE Users SET Name = @Name, Password = @Password, username = @Username, PhoneNo = @PhoneNo, IsValid = @IsValid WHERE Email=@Email",
                 connection);
@@ -124,7 +124,7 @@ namespace VehiDenceAPI.Models
             command.Parameters.AddWithValue("@PhoneNo", user.PhoneNo);
             command.Parameters.AddWithValue("@Id", user.Id);
             command.Parameters.AddWithValue("@isValid", true);
-            
+
             int queryResult = command.ExecuteNonQuery();
             connection.Close();
 
@@ -148,7 +148,7 @@ namespace VehiDenceAPI.Models
 
             connection.Open();
 
-            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Token=@Token",connection);
+            SqlCommand command = new SqlCommand("UPDATE Users SET  Password = @Password WHERE Token=@Token", connection);
             command.Parameters.AddWithValue("@Password", user.Password);
             command.Parameters.AddWithValue("@Token", user.Token);
             int queryResult = command.ExecuteNonQuery();
@@ -177,7 +177,7 @@ namespace VehiDenceAPI.Models
 
             DataTable dt = new DataTable();
             da.Fill(dt);
-            
+
             if (dt.Rows.Count > 0)
             {
                 response.StatusCode = 200;
@@ -189,21 +189,21 @@ namespace VehiDenceAPI.Models
                 us.username = Convert.ToString(dt.Rows[0]["username"]);
                 response.User = us;
             }
-            
-                else
-                {
-                    response.StatusCode = 100;
-                    response.StatusMessage = "Login Failed. Please Sign up or check your Email";
-                    response.User = null;
-                }
-            
+
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Login Failed. Please Sign up or check your Email";
+                response.User = null;
+            }
+
             return response;
         }
 
         public Response DeleteUser(Users users, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'",connection);
+            SqlCommand command = new SqlCommand("Delete from Users where email='" + users.Email + "'", connection);
             connection.Open();
             int i = command.ExecuteNonQuery();
             connection.Close();
@@ -219,7 +219,7 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-        
+
         public List<Users> GetUsers(SqlConnection connection)
         {
             Response response = new Response();
@@ -241,27 +241,27 @@ namespace VehiDenceAPI.Models
 
             return users;
         }
-        
+
         public Response AddMasina(Masina masina, SqlConnection connection)
         {
             Response response = new Response();
             try
             {
-                
-                            SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriculare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriculare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
-                            connection.Open();
-                            int i = cmd.ExecuteNonQuery();
-                            connection.Close();
-                            if (i > 0)
-                            {
-                                response.StatusCode = 200;
-                                response.StatusMessage = "Masina adaugata cu succes";
-                            }
-                            else
-                            {
-                                response.StatusCode = 100;
-                                response.StatusMessage = "Nu s-a putut adauga masina";
-                            }
+
+                SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriculare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriculare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
+                connection.Open();
+                int i = cmd.ExecuteNonQuery();
+                connection.Close();
+                if (i > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Masina adaugata cu succes";
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu s-a putut adauga masina";
+                }
             }
             catch (SqlException ex)
             {
@@ -281,7 +281,7 @@ namespace VehiDenceAPI.Models
 
             return response;
         }
-        
+
         public Response MasinaList(Masina masina, SqlConnection connetion)
         {
             Response response = new Response();
@@ -327,7 +327,7 @@ namespace VehiDenceAPI.Models
         public Response DeleteMasina(Masina masina, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Delete from Masina where username='"+masina.Username+"' and NrInmatriculare='"+masina.NrInmatriculare+"'", connection);
+            SqlCommand cmd = new SqlCommand("Delete from Masina where username='" + masina.Username + "' and NrInmatriculare='" + masina.NrInmatriculare + "'", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -346,7 +346,7 @@ namespace VehiDenceAPI.Models
         public Response AddAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('"+asigurare.SerieSasiu+ "','"+asigurare.NrInmatriculare+ "',GETDATE(),'" + asigurare.DataExpirare+ "','"+asigurare.Asigurator+"')", connection);
+            SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('" + asigurare.SerieSasiu + "','" + asigurare.NrInmatriculare + "',GETDATE(),'" + asigurare.DataExpirare + "','" + asigurare.Asigurator + "')", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -426,7 +426,7 @@ namespace VehiDenceAPI.Models
         }
         public Response VerificareExpirareAsigurare(SqlConnection connection)
         {
-            Response response=new Response();
+            Response response = new Response();
             SqlDataAdapter da = new SqlDataAdapter("SELECT distinct Users.Email, Users.Name  " +
     "FROM Users  " +
     "JOIN Masina  ON Users.username = Masina.Username " +
@@ -442,7 +442,7 @@ namespace VehiDenceAPI.Models
                 {
 
                     Users us = new Users();
-                   
+
                     us.Email = Convert.ToString(dt.Rows[i]["Email"]);
                     us.Name = Convert.ToString(dt.Rows[i]["Name"]);
 
@@ -454,7 +454,7 @@ namespace VehiDenceAPI.Models
                     response.StatusCode = 200;
                     response.StatusMessage = "Asigurari Expirate Gasite";
                     response.listUsers = list;
-                    
+
 
                 }
                 else
@@ -470,6 +470,86 @@ namespace VehiDenceAPI.Models
                 response.StatusCode = 100;
                 response.StatusMessage = "Nu au fost gasite Asigurari Expirate";
                 response.listAsigurare = null;
+            }
+            return response;
+        }
+        public Response AddCasco(Casco casco, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into Casco (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('" + casco.SerieSasiu + "','" + casco.NrInmatriculare + "',GETDATE(),'" + casco.DataExpirare + "','" + casco.Asigurator + "')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Asigurare successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Asigurare failed";
+            }
+            return response;
+        }
+        public Response DeleteCasco(Casco casco, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from Casco where NrInmatriculare='" + casco.NrInmatriculare + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response CascoList(Casco casco, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from Casco where NrInmatriculare='" + casco.NrInmatriculare + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Casco> list = new List<Casco>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Casco cas = new Casco();
+                    cas.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    cas.SerieSasiu = Convert.ToString(dt.Rows[i]["SerieSasiu"]);
+                    cas.NrInmatriculare = Convert.ToString(dt.Rows[i]["NrInmatriculare"]);
+                    cas.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    cas.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    cas.Asigurator = Convert.ToString(dt.Rows[i]["Asigurator"]);
+                    list.Add(cas);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Asigurare Gasite";
+                    response.listCasco = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Asigurari";
+                    response.listCasco = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Asigurari";
+                response.listCasco = null;
             }
             return response;
         }
