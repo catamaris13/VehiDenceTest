@@ -709,35 +709,30 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-/// <summary>
-/// De aici trebuie modificat codu ca e doar copy paste pentru a fi mai usor
-/// </summary>
-/// <param name="revizieService"></param>
-/// <param name="connection"></param>
-/// <returns></returns>
+        
         public Response AddRevizieService(RevizieService revizieService, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Insert into RevizieService (Nume,username,DataCreare,DataExpirare,Categorie) Values ('" + permisConducere.Nume + "','" + permisConducere.username + "',GETDATE(),'" + permisConducere.DataExpirare + "','" + permisConducere.Categorie + "')", connection);
+            SqlCommand cmd = new SqlCommand("Insert into RevizieService (SerieSasiu,KmUltim,KmExpirare,ServiceName) Values ('" + revizieService.SerieSasiu + "','"+revizieService.KmUltim+"','" + revizieService.KmExpirare + "','"+revizieService.ServiceName+"')", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
             if (i > 0)
             {
                 response.StatusCode = 200;
-                response.StatusMessage = "Carnet successful";
+                response.StatusMessage = "Revizie successful";
             }
             else
             {
                 response.StatusCode = 100;
-                response.StatusMessage = "Carnet failed";
+                response.StatusMessage = "Revizie failed";
             }
             return response;
         }
-        public Response DeletePermisConducere(PermisConducere permisConducere, SqlConnection connection)
+        public Response DeleteRevizieService(RevizieService revizieService, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Delete from PermisConducere where username='" + permisConducere.username + "'", connection);
+            SqlCommand cmd = new SqlCommand("Delete from RevizieService where SerieSasiu='" + revizieService.SerieSasiu + "'", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -753,49 +748,129 @@ namespace VehiDenceAPI.Models
             }
             return response;
         }
-        public Response PermisConducereList(PermisConducere permisConducere, SqlConnection connetion)
+        public Response RevizieServiceList(RevizieService revizieService, SqlConnection connetion)
         {
             Response response = new Response();
-            SqlDataAdapter da = new SqlDataAdapter("select * from PermisConducere where NrInmatriculare='" + permisConducere.username + "'", connetion);
+            SqlDataAdapter da = new SqlDataAdapter("select * from RevizieService where SerieSasiu='" + revizieService.SerieSasiu + "'", connetion);
             DataTable dt = new DataTable();
             da.Fill(dt);
-            List<PermisConducere> list = new List<PermisConducere>();
+            List<RevizieService> list = new List<RevizieService>();
             if (dt.Rows.Count > 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    PermisConducere pc = new PermisConducere();
-                    pc.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
-                    pc.Nume = Convert.ToString(dt.Rows[i]["Nume"]);
-                    pc.username = Convert.ToString(dt.Rows[i]["username"]);
-                    pc.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
-                    pc.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
-                    pc.Categorie = Convert.ToString(dt.Rows[i]["Categorie"]);
-                    list.Add(pc);
+                    RevizieService rs = new RevizieService();
+                    rs.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    rs.SerieSasiu = Convert.ToString(dt.Rows[i]["SerieSasiu"]);
+                    rs.KmUltim = Convert.ToInt32(dt.Rows[i]["KmUltim"]);
+                    rs.KmExpirare = Convert.ToInt32(dt.Rows[i]["KmExpirare"]);
+                    rs.ServiceName = Convert.ToString(dt.Rows[i]["ServiceName"]);
+                    list.Add(rs);
                 }
                 if (list.Count > 0)
                 {
                     response.StatusCode = 200;
-                    response.StatusMessage = "Permis Gasite";
-                    response.listPermisConducere = list;
+                    response.StatusMessage = "ITP Gasite";
+                    response.listRevizieService = list;
                 }
                 else
                 {
                     response.StatusCode = 100;
-                    response.StatusMessage = "Nu au fost gasite Permise";
-                    response.listPermisConducere = null;
+                    response.StatusMessage = "Nu au fost gasite ITP";
+                    response.listRevizieService = null;
                 }
 
             }
             else
             {
                 response.StatusCode = 100;
-                response.StatusMessage = "Nu au fost gasite Permise";
-                response.listPermisConducere = null;
+                response.StatusMessage = "Nu au fost gasite ITP";
+                response.listRevizieService = null;
             }
             return response;
         }
 
+        public Response AddVigneta(Vigneta vigneta, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Insert into Vigneta (NrInmatriculare,DataCreare,DataExpirare,Tara) Values ('" + vigneta.NrInmatriculare + "',GETDATE(),'" + vigneta.DataExpirare + "','"+vigneta.Tara+"')", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Vigneta successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Vigneta failed";
+            }
+            return response;
+        }
+        public Response DeleteVigneta(Vigneta vigneta, SqlConnection connection)
+        {
+            Response response = new Response();
+            SqlCommand cmd = new SqlCommand("Delete from Vigneta where NrInmatriculare='" + vigneta.NrInmatriculare + "'", connection);
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Deleted successful";
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Deletion failed";
+            }
+            return response;
+        }
+        public Response VignetaList(Vigneta vigneta, SqlConnection connetion)
+        {
+            Response response = new Response();
+            SqlDataAdapter da = new SqlDataAdapter("select * from Vigneta where NrInmatriculare='" + vigneta.NrInmatriculare + "'", connetion);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Vigneta> list = new List<Vigneta>();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Vigneta vi = new Vigneta();
+                    vi.Id = Convert.ToInt32(dt.Rows[i]["Id"]);
+                    vi.NrInmatriculare = Convert.ToString(dt.Rows[i]["NrInmatriculare"]);
+                    vi.DataCreare = Convert.ToDateTime(dt.Rows[i]["DataCreare"]);
+                    vi.DataExpirare = Convert.ToDateTime(dt.Rows[i]["DataExpirare"]);
+                    vi.Tara = Convert.ToString(dt.Rows[i]["DataExpirare"]);
+
+
+                    list.Add(vi);
+                }
+                if (list.Count > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Vignete Gasite";
+                    response.listVigneta = list;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Nu au fost gasite Vignete";
+                    response.listVigneta = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Nu au fost gasite Vignete";
+                response.listVigneta = null;
+            }
+            return response;
+        }
 
 
 

@@ -15,7 +15,8 @@ namespace VehiDenceAPI.Models
         public List<ITP> listITP { get; set; }  
         public List<PermisConducere> listPermisConducere { get; set; }
         public List<RevizieService> listRevizieService { get; set; }
-        
+        public List<Vigneta> listVigneta { get; set; }
+
 
     }
 }
