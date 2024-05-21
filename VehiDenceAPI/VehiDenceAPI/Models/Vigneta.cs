@@ -7,5 +7,6 @@
         public DateTime DataCreare { get; set; }
         public DateTime DataExpirare { get; set; }
         public string Tara { get; set; }
+        public byte[] ImageData { get; set; } = null;
     }
 }

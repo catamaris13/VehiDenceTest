@@ -252,7 +252,14 @@ namespace VehiDenceAPI.Models
                 cmd.Parameters.AddWithValue("@Marca", masina.Marca);
                 cmd.Parameters.AddWithValue("@Model", masina.Model);
                 cmd.Parameters.AddWithValue("@Username", masina.Username);
-                cmd.Parameters.AddWithValue("@ImageData", masina.ImageData ?? (object)DBNull.Value);
+                if (masina.ImageData != null)
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = masina.ImageData;
+                }
+                else
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = DBNull.Value;
+                }
 
                 connection.Open();
                 int i = cmd.ExecuteNonQuery();
@@ -342,22 +349,55 @@ namespace VehiDenceAPI.Models
         public Response AddAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('" + asigurare.SerieSasiu + "','" + asigurare.NrInmatriculare + "',GETDATE(),'" + asigurare.DataExpirare + "','" + asigurare.Asigurator + "')", connection);
-            connection.Open();
-            int i = cmd.ExecuteNonQuery();
-            connection.Close();
-            if (i > 0)
+            try
             {
-                response.StatusCode = 200;
-                response.StatusMessage = "Asigurare successful";
+                SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu, NrInmatriculare, DataCreare, DataExpirare, Asigurator, ImageData) Values (@SerieSasiu, @NrInmatriculare, GETDATE(), @DataExpirare, @Asigurator, @ImageData)", connection);
+
+                cmd.Parameters.AddWithValue("@SerieSasiu", asigurare.SerieSasiu);
+                cmd.Parameters.AddWithValue("@NrInmatriculare", asigurare.NrInmatriculare);
+                cmd.Parameters.AddWithValue("@DataExpirare", asigurare.DataExpirare);
+                cmd.Parameters.AddWithValue("@Asigurator", asigurare.Asigurator);
+                if (asigurare.ImageData != null)
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = asigurare.ImageData;
+                }
+                else
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = DBNull.Value;
+                }
+
+                connection.Open();
+                int i = cmd.ExecuteNonQuery();
+                connection.Close();
+
+                if (i > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Asigurare successful";
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Asigurare failed";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                response.StatusCode = 100;
-                response.StatusMessage = "Asigurare failed";
+                // Handle exception (e.g., log it)
+                response.StatusCode = 500;
+                response.StatusMessage = "An error occurred: " + ex.Message;
             }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
             return response;
         }
+
         public Response DeleteAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();

@@ -17,7 +17,7 @@ namespace VehiDenceAPI.Controllers
         }
         [HttpPost]
         [Route("AddMasina")]
-        public Response AddMasina([FromForm] Masina masina, IFormFile imageFile)
+        public Response AddMasina([FromForm] Masina masina, IFormFile? imageFile)
         {
             Response response = new Response();
             SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());

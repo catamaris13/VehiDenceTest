@@ -1,4 +1,6 @@
-﻿namespace VehiDenceAPI.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace VehiDenceAPI.Models
 {
     public class Masina
     {
@@ -9,7 +11,8 @@
         public string Marca { get; set; }   
         public string Model {  get; set; }
         public string Username {  get; set; }
-        public byte[] ImageData { get; set; } = null;
+        [BindNever]
+        public byte[]? ImageData { get; set; }
 
 
     }
