@@ -54,7 +54,7 @@ namespace VehiDenceAPI.Controllers
             Asigurare asigurare = new Asigurare();
             asigurare.NrInmatriculare = nrinmatriculare;
             response = dal.AsigutareList(asigurare, connection);
-
+            
             return response;
 
         }

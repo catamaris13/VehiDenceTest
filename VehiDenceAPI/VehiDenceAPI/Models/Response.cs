@@ -12,5 +12,11 @@ namespace VehiDenceAPI.Models
         public List<Asigurare> listAsigurare { get; set;}
         public List<Users> listUsers { get; set; } 
         public List<Casco> listCasco { get; set; }
+        public List<ITP> listITP { get; set; }  
+        public List<PermisConducere> listPermisConducere { get; set; }
+        public List<RevizieService> listRevizieService { get; set; }
+        public List<Vigneta> listVigneta { get; set; }
+
+
     }
 }
