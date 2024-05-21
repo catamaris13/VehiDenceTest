@@ -8,5 +8,6 @@
         public DateTime DataCreare { get; set; }
         public DateTime DataExpirare { get; set; }
         public string Asigurator { get; set; }
+        public byte[] ImageData { get; set; } = null;
     }
 }

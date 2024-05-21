@@ -243,11 +243,28 @@ namespace VehiDenceAPI.Models
             Response response = new Response();
             try
             {
+                string query = "INSERT INTO Masina (SerieSasiu, NrInmatriculare, Marca, Model, Username, ImageData) " +
+                               "VALUES (@SerieSasiu, @NrInmatriculare, @Marca, @Model, @Username, @ImageData)";
 
-                SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriculare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriculare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@SerieSasiu", masina.SerieSasiu);
+                cmd.Parameters.AddWithValue("@NrInmatriculare", masina.NrInmatriculare);
+                cmd.Parameters.AddWithValue("@Marca", masina.Marca);
+                cmd.Parameters.AddWithValue("@Model", masina.Model);
+                cmd.Parameters.AddWithValue("@Username", masina.Username);
+                if (masina.ImageData != null)
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = masina.ImageData;
+                }
+                else
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = DBNull.Value;
+                }
+
                 connection.Open();
                 int i = cmd.ExecuteNonQuery();
                 connection.Close();
+
                 if (i > 0)
                 {
                     response.StatusCode = 200;
@@ -259,22 +276,12 @@ namespace VehiDenceAPI.Models
                     response.StatusMessage = "Nu s-a putut adauga masina";
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
-                // Check if the exception is due to a foreign key constraint violation
-                if (ex.Number == 547)
-                {
-                    response.StatusCode = 100;
-                    response.StatusMessage = "Foreign key constraint violated: " + ex.Message;
-                }
-                else
-                {
-                    // Handle other SQL exceptions
-                    response.StatusCode = 100;
-                    response.StatusMessage = "An error occurred: " + ex.Message;
-                }
+                connection.Close();
+                response.StatusCode = 500;
+                response.StatusMessage = "Eroare: " + ex.Message;
             }
-
             return response;
         }
         public Response MasinaList(Masina masina, SqlConnection connetion)
@@ -342,22 +349,55 @@ namespace VehiDenceAPI.Models
         public Response AddAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();
-            SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu,NrInmatriculare,DataCreare,DataExpirare,Asigurator) Values ('" + asigurare.SerieSasiu + "','" + asigurare.NrInmatriculare + "',GETDATE(),'" + asigurare.DataExpirare + "','" + asigurare.Asigurator + "')", connection);
-            connection.Open();
-            int i = cmd.ExecuteNonQuery();
-            connection.Close();
-            if (i > 0)
+            try
             {
-                response.StatusCode = 200;
-                response.StatusMessage = "Asigurare successful";
+                SqlCommand cmd = new SqlCommand("Insert into Asigurare (SerieSasiu, NrInmatriculare, DataCreare, DataExpirare, Asigurator, ImageData) Values (@SerieSasiu, @NrInmatriculare, GETDATE(), @DataExpirare, @Asigurator, @ImageData)", connection);
+
+                cmd.Parameters.AddWithValue("@SerieSasiu", asigurare.SerieSasiu);
+                cmd.Parameters.AddWithValue("@NrInmatriculare", asigurare.NrInmatriculare);
+                cmd.Parameters.AddWithValue("@DataExpirare", asigurare.DataExpirare);
+                cmd.Parameters.AddWithValue("@Asigurator", asigurare.Asigurator);
+                if (asigurare.ImageData != null)
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = asigurare.ImageData;
+                }
+                else
+                {
+                    cmd.Parameters.Add("@ImageData", SqlDbType.VarBinary).Value = DBNull.Value;
+                }
+
+                connection.Open();
+                int i = cmd.ExecuteNonQuery();
+                connection.Close();
+
+                if (i > 0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Asigurare successful";
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Asigurare failed";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                response.StatusCode = 100;
-                response.StatusMessage = "Asigurare failed";
+                // Handle exception (e.g., log it)
+                response.StatusCode = 500;
+                response.StatusMessage = "An error occurred: " + ex.Message;
             }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
             return response;
         }
+
         public Response DeleteAsigurare(Asigurare asigurare, SqlConnection connection)
         {
             Response response = new Response();
