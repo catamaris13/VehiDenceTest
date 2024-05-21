@@ -34,11 +34,17 @@ namespace VehiDenceAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataCreare")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataExpirare")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("MasinaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NrInmatriculare")
                         .IsRequired()
@@ -49,6 +55,8 @@ namespace VehiDenceAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MasinaId");
 
                     b.ToTable("Asigurare");
                 });
@@ -114,6 +122,10 @@ namespace VehiDenceAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Marca")
                         .IsRequired()
@@ -263,6 +275,17 @@ namespace VehiDenceAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vigneta");
+                });
+
+            modelBuilder.Entity("VehiDenceAPI.Models.Asigurare", b =>
+                {
+                    b.HasOne("VehiDenceAPI.Models.Masina", "Masina")
+                        .WithMany()
+                        .HasForeignKey("MasinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Masina");
                 });
 #pragma warning restore 612, 618
         }

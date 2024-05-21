@@ -243,11 +243,21 @@ namespace VehiDenceAPI.Models
             Response response = new Response();
             try
             {
+                string query = "INSERT INTO Masina (SerieSasiu, NrInmatriculare, Marca, Model, Username, ImageData) " +
+                               "VALUES (@SerieSasiu, @NrInmatriculare, @Marca, @Model, @Username, @ImageData)";
 
-                SqlCommand cmd = new SqlCommand("Insert into Masina(SerieSasiu,NrInmatriculare,Marca,Model,Username) Values('" + masina.SerieSasiu + "','" + masina.NrInmatriculare + "','" + masina.Marca + "','" + masina.Model + "','" + masina.Username + "')", connection);
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@SerieSasiu", masina.SerieSasiu);
+                cmd.Parameters.AddWithValue("@NrInmatriculare", masina.NrInmatriculare);
+                cmd.Parameters.AddWithValue("@Marca", masina.Marca);
+                cmd.Parameters.AddWithValue("@Model", masina.Model);
+                cmd.Parameters.AddWithValue("@Username", masina.Username);
+                cmd.Parameters.AddWithValue("@ImageData", masina.ImageData ?? (object)DBNull.Value);
+
                 connection.Open();
                 int i = cmd.ExecuteNonQuery();
                 connection.Close();
+
                 if (i > 0)
                 {
                     response.StatusCode = 200;
@@ -259,22 +269,12 @@ namespace VehiDenceAPI.Models
                     response.StatusMessage = "Nu s-a putut adauga masina";
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
-                // Check if the exception is due to a foreign key constraint violation
-                if (ex.Number == 547)
-                {
-                    response.StatusCode = 100;
-                    response.StatusMessage = "Foreign key constraint violated: " + ex.Message;
-                }
-                else
-                {
-                    // Handle other SQL exceptions
-                    response.StatusCode = 100;
-                    response.StatusMessage = "An error occurred: " + ex.Message;
-                }
+                connection.Close();
+                response.StatusCode = 500;
+                response.StatusMessage = "Eroare: " + ex.Message;
             }
-
             return response;
         }
         public Response MasinaList(Masina masina, SqlConnection connetion)
