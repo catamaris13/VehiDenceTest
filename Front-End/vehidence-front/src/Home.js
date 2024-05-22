@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./home.css"; // Import the CSS file
-import ferrariImage from "./assets/ferrari copy.jpg"; // Import the image file
-import mercedesImage from "./assets/mercedes.jpg";
-import bmwImage from "./assets/Bmw.jpg";
-import audiImage from "./assets/Audi.jpg";
+import "./home.css";
 
 const Home = () => {
   const [masini, setMasini] = useState([]);
-  const [login, setLogin] = useState(localStorage.getItem("islogin") ? JSON.parse(localStorage.getItem("islogin")) : false);
+  const [login, setLogin] = useState(
+    localStorage.getItem("islogin")
+      ? JSON.parse(localStorage.getItem("islogin"))
+      : false
+  );
   const [destination, setDestination] = useState("/login");
   const [displayHorizontal, setDisplayHorizontal] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -20,6 +21,10 @@ const Home = () => {
   const [phone, setPhone] = useState("");
   const [token, setToken] = useState("");
   const emailUser = localStorage.getItem("email");
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   useEffect(() => {
     axios
@@ -62,51 +67,51 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5277/api/Masina/MasinaList/${username}`);
-        setMasini(response.data.listMasina);
+        if (username) {
+          const response = await axios.get(
+            `http://localhost:5277/api/Masina/MasinaList/${username}`
+          );
+          console.log("Masini data:", response.data);
+          setMasini(response.data.listMasina);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [username]);
-  
 
-  // Mapam fiecare masina la un card
   const mapMasiniToCards = () => {
-
-    if(!masini){
-      return(
-        <h1 className="text">Nu aveti masini...</h1>
-      );
+    if (!masini || masini.length === 0) {
+      return <h1 className="text">Nu aveti masini...</h1>;
     }
 
     return masini.map((masina, index) => {
-      let imageSrc;
-      switch (masina.marca.toLowerCase()) {
-        case "ferrari":
-          imageSrc = ferrariImage;
-          break;
-        case "mercedes-benz":
-          imageSrc = mercedesImage;
-          break;
-        case "bmw":
-          imageSrc = bmwImage;
-          break;
-        case "audi":
-          imageSrc = audiImage;
-          break;
-        default:
-          imageSrc = "";
-          break;
-      }
+      const imageSrc = masina.imageData
+        ? `data:image/jpeg;base64,${masina.imageData}`
+        : "";
+
+      console.log(`Masina ${index} image source:`, imageSrc);
+
       return (
         <div className="card" key={index}>
-          <img src={imageSrc} className="card-img-top" alt={masina.marca} />
+          <img
+            src={imageSrc}
+            className="card-img-top"
+            alt={masina.marca}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "placeholder.jpg";
+            }}
+          />
           <div className="card-body">
-            <h5 className="card-title">{masina.marca} {masina.model}</h5>
-            <p className="card-text">Nr. Inmatriculare: {masina.nrInmatriculare}</p>
+            <h5 className="card-title">
+              {masina.marca} {masina.model}
+            </h5>
+            <p className="card-text">
+              Nr. Inmatriculare: {masina.nrInmatriculare}
+            </p>
             <p className="card-text">Serie Sasiu: {masina.serieSasiu}</p>
           </div>
         </div>
@@ -117,25 +122,25 @@ const Home = () => {
   if (!login) {
     return (
       <div className="home">
-      <nav className="navbar">
-        <h1>Vehi Dence</h1>
-        <div className="links">
-          <Link
-            to={destination}
-            style={{
-              color: "white",
-              backgroundColor: "#3c009d",
-              borderRadius: "10px",
-              padding: "8px 20px",
-              marginLeft: "20px",
-            }}
-          >
-            My account
-          </Link>
-        </div>
-      </nav>
-    </div>
-    ); 
+        <nav className="navbar">
+          <h1>Vehi Dence</h1>
+          <div className="links">
+            <Link
+              to={destination}
+              style={{
+                color: "white",
+                backgroundColor: "#3c009d",
+                borderRadius: "10px",
+                padding: "8px 20px",
+                marginLeft: "20px",
+              }}
+            >
+              My account
+            </Link>
+          </div>
+        </nav>
+      </div>
+    );
   }
 
   return (
@@ -157,6 +162,31 @@ const Home = () => {
           </Link>
         </div>
       </nav>
+
+      <div class="dropdown">
+        <button class="dropdown-btn">
+          <span>New +</span>
+          <span class="arrow"></span>
+        </button>
+        <ul class="dropdown-content">
+          <li style={{ "--delay": 1 }}>
+            <a href="/new_car">Add Car</a>
+          </li>
+          <li style={{ "--delay": 2 }}>
+            <a href="#">Casco</a>
+          </li>
+          <li style={{ "--delay": 3 }}>
+            <a href="#">ITP</a>
+          </li>
+          <li style={{ "--delay": 4 }}>
+            <a href="#">Insurance</a>
+          </li>
+          <li style={{ "--delay": 4 }}>
+            <a href="#">Driver license</a>
+          </li>
+        </ul>
+      </div>
+
 
       <div className={`card-container ${displayHorizontal ? "" : "vertical"}`}>
         {mapMasiniToCards()}

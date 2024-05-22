@@ -302,6 +302,7 @@ namespace VehiDenceAPI.Models
                     ma.Marca = Convert.ToString(dt.Rows[i]["Marca"]);
                     ma.Model = Convert.ToString(dt.Rows[i]["Model"]);
                     ma.Username = Convert.ToString(dt.Rows[i]["Username"]);
+                    ma.ImageData = dt.Rows[i]["ImageData"] as byte[];
                     list.Add(ma);
                 }
                 if (list.Count > 0)
