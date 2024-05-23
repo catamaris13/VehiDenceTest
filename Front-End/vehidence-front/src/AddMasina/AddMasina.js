@@ -131,8 +131,8 @@ const AddMasina = () => {
           </div>
         </div>
       </div>
-      <div className="button-container-add-car">
-        <button className="button-new" onClick={handleSubmit}>
+      <div className="button-container-add-casco">
+        <button className="button-new-casco" onClick={handleSubmit}>
           Add car
         </button>
       </div>

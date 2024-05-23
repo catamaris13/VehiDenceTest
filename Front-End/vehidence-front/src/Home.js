@@ -196,7 +196,7 @@ const Home = () => {
             <a href="/new_car">Add Car</a>
           </li>
           <li style={{ "--delay": 2 }}>
-            <a href="#">Casco</a>
+            <a href="/new_casco">Casco</a>
           </li>
           <li style={{ "--delay": 3 }}>
             <a href="#">ITP</a>
