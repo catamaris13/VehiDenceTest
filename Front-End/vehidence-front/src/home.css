@@ -20,15 +20,13 @@
   .navbar a:hover {
     color: #3c009d;
 }
-/* src/styles/home.css */
 
 .card-img-top {
-    width: 100%; /* Aducem imaginea la lățimea de 100% a containerului */
-    height: auto; /* Asigurăm menținerea proporțiilor imaginii */
-    max-height: 300px; /* Setăm o înălțime maximă pentru imagine */
-    object-fit: cover; /* Asigurăm că imaginea este completă în interiorul containerului, fără să își piardă proporțiile */
+    width: 100%; 
+    height: auto; 
+    max-height: 300px; 
+    object-fit: cover; 
   }
-/* home.css */
 
 .home-content {
     display: flex;
@@ -39,18 +37,16 @@
 }
   
 .card-body {
-    padding: 20px; /* Adăugăm un spațiu intern între conținut și marginile cardului */
+    padding: 20px; 
 }
   
 .card-title {
-    font-size: 20px; /* Mărimea fontului pentru titlul cardului */
+    font-size: 20px; 
 }
   
 .card-text {
-    font-size: 16px; /* Mărimea fontului pentru textul cardului */
+    font-size: 16px;
 }
-/* home.css */
-
 .card-container {
     display: flex;
     justify-content: center;
@@ -76,8 +72,8 @@
     align-items: center;
   }
 
-  /* CSS */
-/* CSS */
+
+
 .dropdown {
   max-width: 13em;
   margin: 80px auto 0;
@@ -102,9 +98,9 @@
 }
 
 .arrow {
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid #f1a009;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 8px solid #f1a009;
   transition: transform ease-in-out 0.3s;
 }
 .dropdown-content {
@@ -123,7 +119,7 @@
   transition: 0.5s;
 }
 .dropdown-content li:hover {
-  background: #c48220;
+  background: #000000;
   transition-delay: calc(60ms * var(--delay));
 }
 .dropdown-content li a {

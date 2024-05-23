@@ -71,7 +71,6 @@ const Home = () => {
           const response = await axios.get(
             `http://localhost:5277/api/Masina/MasinaList/${username}`
           );
-          console.log("Masini data:", response.data);
           setMasini(response.data.listMasina);
         }
       } catch (error) {
@@ -91,8 +90,6 @@ const Home = () => {
       const imageSrc = masina.imageData
         ? `data:image/jpeg;base64,${masina.imageData}`
         : "";
-
-      console.log(`Masina ${index} image source:`, imageSrc);
 
       return (
         <div className="card" key={index}>
@@ -137,6 +134,31 @@ const Home = () => {
             >
               My account
             </Link>
+            <Link
+              to="/login"
+              style={{
+                color: "white",
+                backgroundColor: "#3c009d",
+                borderRadius: "10px",
+                padding: "8px 20px",
+                marginLeft: "40px",
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              style={{
+                color: "white",
+                backgroundColor: "#3c009d",
+                borderRadius: "10px",
+                padding: "8px 20px",
+                marginLeft: "40px",
+                marginRight: "40px",
+              }}
+            >
+              Sign Up
+            </Link>
           </div>
         </nav>
       </div>
@@ -156,6 +178,7 @@ const Home = () => {
               borderRadius: "10px",
               padding: "8px 20px",
               marginLeft: "20px",
+              marginRight: "40px",
             }}
           >
             My account
@@ -163,12 +186,12 @@ const Home = () => {
         </div>
       </nav>
 
-      <div class="dropdown">
-        <button class="dropdown-btn">
+      <div className="dropdown">
+        <button className="dropdown-btn">
           <span>New +</span>
-          <span class="arrow"></span>
+          <span className="arrow"></span>
         </button>
-        <ul class="dropdown-content">
+        <ul className="dropdown-content">
           <li style={{ "--delay": 1 }}>
             <a href="/new_car">Add Car</a>
           </li>
@@ -186,7 +209,6 @@ const Home = () => {
           </li>
         </ul>
       </div>
-
 
       <div className={`card-container ${displayHorizontal ? "" : "vertical"}`}>
         {mapMasiniToCards()}
