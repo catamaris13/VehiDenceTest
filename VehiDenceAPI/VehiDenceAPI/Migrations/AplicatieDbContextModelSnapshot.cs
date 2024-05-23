@@ -40,6 +40,10 @@ namespace VehiDenceAPI.Migrations
                     b.Property<DateTime>("DataExpirare")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("NrInmatriculare")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,6 +74,10 @@ namespace VehiDenceAPI.Migrations
 
                     b.Property<DateTime>("DataExpirare")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NrInmatriculare")
                         .IsRequired()
@@ -115,6 +123,10 @@ namespace VehiDenceAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Marca")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -157,6 +169,10 @@ namespace VehiDenceAPI.Migrations
 
                     b.Property<DateTime>("DataExpirare")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Nume")
                         .IsRequired()
@@ -251,6 +267,10 @@ namespace VehiDenceAPI.Migrations
 
                     b.Property<DateTime>("DataExpirare")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("NrInmatriculare")
                         .IsRequired()

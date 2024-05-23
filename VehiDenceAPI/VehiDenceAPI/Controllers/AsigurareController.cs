@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using NETCore.MailKit.Core;
+using System.Reflection;
 using User.Management.Service.Services;
 using VehiDenceAPI.Models;
 
@@ -22,14 +23,22 @@ namespace VehiDenceAPI.Controllers
         }
         [HttpPost]
         [Route("AddAsigurare")]
-
-        public Response AddAsigurare(Asigurare asigurare)
+        public Response AddMasina([FromForm] Asigurare asigurare, IFormFile? imageFile)
         {
             Response response = new Response();
             SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("VehiDenceConnectionString").ToString());
             Dal dal = new Dal();
-            response = dal.AddAsigurare(asigurare, connection);
 
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    imageFile.CopyTo(ms);
+                    asigurare.ImageData = ms.ToArray();
+                }
+            }
+
+            response = dal.AddAsigurare(asigurare, connection);
             return response;
         }
         [HttpDelete]
@@ -54,7 +63,7 @@ namespace VehiDenceAPI.Controllers
             Asigurare asigurare = new Asigurare();
             asigurare.NrInmatriculare = nrinmatriculare;
             response = dal.AsigutareList(asigurare, connection);
-
+            
             return response;
 
         }

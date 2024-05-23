@@ -36,6 +36,7 @@ import RessetPassword from './RessetPassword/RessetPassword'
 import React from 'react';
 import VerifyEmailPage from './RessetPassword/VerifyEmailPage';
 import EnterEmailPage from './RessetPassword/EnterEmailPage';
+import AddMasina from './AddMasina/AddMasina';
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
             <Route path='/myaccount' element={<MyAccount />} />
             <Route path="/enter_email" element={<EnterEmailPage/>}/>
             <Route path='/verify_email_lost_password' element={<VerifyEmailPage/>}/>
+            <Route path='/new_car' element={<AddMasina/>}/>
             <Route path='*' element={<Home />} />
           </Routes>
         </Router>
