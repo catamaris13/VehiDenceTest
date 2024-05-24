@@ -38,6 +38,10 @@ import VerifyEmailPage from './RessetPassword/VerifyEmailPage';
 import EnterEmailPage from './RessetPassword/EnterEmailPage';
 import AddMasina from './AddMasina/AddMasina';
 import AddCasco from './AddCasco/AddCasco';
+import AddItp from './AddItp/Additp';
+import AddAsigurare from './AddAsigurare/AddAsigurare';
+import AddPermis from './AddPermis/AddPermis';
+import AddVinieta from './AddVinieta/AddVinieta';
 
 function App() {
 
@@ -54,6 +58,10 @@ function App() {
             <Route path='/verify_email_lost_password' element={<VerifyEmailPage/>}/>
             <Route path='/new_casco' element= {<AddCasco/>}/>
             <Route path='/new_car' element={<AddMasina/>}/>
+            <Route path='/new_itp' element={<AddItp/>}/>
+            <Route path='/new_insurance' element = {<AddAsigurare/>}/>
+            <Route path='/new_driver_license' element = {<AddPermis/>}/>
+            <Route path='/new_vignette' element = {<AddVinieta/>}/>
             <Route path='*' element={<Home />} />
           </Routes>
         </Router>

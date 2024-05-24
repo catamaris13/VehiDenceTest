@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./addCasco.css";
+import "./addItp.css"
 
-const AddCasco = () => {
-  const [serieSasiu, setSerieSasiu] = useState("");
+const AddItp = () => {
   const [nrInmatriculare, setNrInmatriculare] = useState("");
-  const [dataCreare, setDataCreare] = useState(new Date());
-  const [dataExpirare, setDataExpirare] = useState(new Date());
-  const [asigurator, setAsigurator] = useState("");
+  const [dataCreare, setDataCreare] = useState("");
+  const [dataExpirare, setDataExpirare] = useState("");
+
   const [login, setLogin] = useState(
     localStorage.getItem("islogin")
       ? JSON.parse(localStorage.getItem("islogin"))
@@ -25,27 +27,10 @@ const AddCasco = () => {
   if (login) {
     return (
       <div className="content-add-casco">
-        <h1 className="text">New Casco</h1>
+        <h1 className="text">New Itp</h1>
 
         <div className="input-row">
           <div className="inputs-fara-poza">
-            <div className="input-fara-poza">
-              <input
-                type="text"
-                placeholder="Insurance"
-                value={asigurator}
-                onChange={(e) => setAsigurator(e.target.value)}
-              />
-            </div>
-            <div className="input-fara-poza">
-              <input
-                type="text"
-                placeholder="Car chassis number"
-                value={serieSasiu}
-                onChange={(e) => setSerieSasiu(e.target.value)}
-              />
-            </div>
-
             <div className="input-fara-poza">
               <input
                 type="text"
@@ -76,7 +61,7 @@ const AddCasco = () => {
           </div>
         </div>
         <div className="button-container-add-casco">
-          <button className="button-new-casco">Add Casco</button>
+          <button className="button-new-casco">Add Itp</button>
         </div>
       </div>
     );
@@ -90,4 +75,4 @@ const AddCasco = () => {
   }
 };
 
-export default AddCasco;
+export default AddItp;

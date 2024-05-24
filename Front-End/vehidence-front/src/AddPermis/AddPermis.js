@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./addCasco.css";
+import "./addPermis.css";
+import axios from "axios";
 
-const AddCasco = () => {
+
+const AddPermis = () => {
   const [serieSasiu, setSerieSasiu] = useState("");
   const [nrInmatriculare, setNrInmatriculare] = useState("");
   const [dataCreare, setDataCreare] = useState(new Date());
   const [dataExpirare, setDataExpirare] = useState(new Date());
-  const [asigurator, setAsigurator] = useState("");
+  const [nume, setNume] = useState("");
+  const [username,setUsername] = useState('');
+  const [categorie, setCategorie] = useState('');
+  const emailUser = localStorage.getItem('email');
   const [login, setLogin] = useState(
     localStorage.getItem("islogin")
       ? JSON.parse(localStorage.getItem("islogin"))
@@ -22,36 +27,47 @@ const AddCasco = () => {
   const handleDataExpirareChange = (date) => {
     setDataExpirare(date);
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5277/api/User/All/Users")
+      .then((response) => {
+        const userData = response.data;
+        if (userData.length > 0) {
+          const user = userData.find((user) => user.email === emailUser);
+          if (user) {
+            setUsername(user.username);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        alert('User not found. Plese try again.')
+      });
+  }, []);
+
+
   if (login) {
     return (
       <div className="content-add-casco">
-        <h1 className="text">New Casco</h1>
+        <h1 className="text">New Driver License</h1>
 
         <div className="input-row">
           <div className="inputs-fara-poza">
             <div className="input-fara-poza">
               <input
                 type="text"
-                placeholder="Insurance"
-                value={asigurator}
-                onChange={(e) => setAsigurator(e.target.value)}
+                placeholder="Name"
+                value={nume}
+                onChange={(e) => setNume(e.target.value)}
               />
             </div>
             <div className="input-fara-poza">
               <input
                 type="text"
                 placeholder="Car chassis number"
-                value={serieSasiu}
-                onChange={(e) => setSerieSasiu(e.target.value)}
-              />
-            </div>
-
-            <div className="input-fara-poza">
-              <input
-                type="text"
-                placeholder="Registration number"
-                value={nrInmatriculare}
-                onChange={(e) => setNrInmatriculare(e.target.value)}
+                value={categorie}
+                onChange={(e) => setCategorie(e.target.value)}
               />
             </div>
           </div>
@@ -76,7 +92,7 @@ const AddCasco = () => {
           </div>
         </div>
         <div className="button-container-add-casco">
-          <button className="button-new-casco">Add Casco</button>
+          <button className="button-new-casco">Add Driver License</button>
         </div>
       </div>
     );
@@ -90,4 +106,4 @@ const AddCasco = () => {
   }
 };
 
-export default AddCasco;
+export default AddPermis;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./addCasco.css";
+import "./addAsigurare.css";
 
-const AddCasco = () => {
+const AddAsigurare = () => {
   const [serieSasiu, setSerieSasiu] = useState("");
   const [nrInmatriculare, setNrInmatriculare] = useState("");
   const [dataCreare, setDataCreare] = useState(new Date());
@@ -25,7 +25,7 @@ const AddCasco = () => {
   if (login) {
     return (
       <div className="content-add-casco">
-        <h1 className="text">New Casco</h1>
+        <h1 className="text">New Insurance</h1>
 
         <div className="input-row">
           <div className="inputs-fara-poza">
@@ -76,7 +76,7 @@ const AddCasco = () => {
           </div>
         </div>
         <div className="button-container-add-casco">
-          <button className="button-new-casco">Add Casco</button>
+          <button className="button-new-casco">Add Insurance</button>
         </div>
       </div>
     );
@@ -90,4 +90,4 @@ const AddCasco = () => {
   }
 };
 
-export default AddCasco;
+export default AddAsigurare;
